@@ -26,6 +26,34 @@ Database: SQLite (for development)
 Authentication: Django built-in auth system
 
 
+Key Functionalities
+ Prevent donors from requesting their **own food**
+ Ensure only **one receiver can be approved** per donation
+ Track **pickup status** and show relevant updates to all parties
+ Maintain clean, intuitive navigation with buttons for:
+   Donate Food
+   Pickup Request
+   Donation Status
+   Pickup Status
+   Logout
+
+##  Setup Instructions 
+
+# Clone the repo
+git clone https://github.com/Shiva-Manda/Food_Donation.git
+cd Food_Donation
+
+# Set up virtual environment (optional but recommended)
+python -m venv venv
+venv\Scripts\activate on Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run server
+python manage.py runserver
+
+
 # Clone the repository
 git clone https://github.com/Shiva-Manda/Food_Donation.git
 
