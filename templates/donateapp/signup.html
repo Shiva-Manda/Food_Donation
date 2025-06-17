@@ -7,6 +7,20 @@
     {% csrf_token %}
     <fieldset class="form-group">
       <legend class="border-bottom mb-4"><h1>Register Here</h1></legend>
+	{% if form.errors %}
+	<div class="alert alert-danger">
+  	 <ul>
+    	   {% for field in form %}
+      	     {% for error in field.errors %}
+        	 <li>{{ error }}</li>
+      	     {% endfor %}
+    	   {% endfor %}
+    	   {% for error in form.non_field_errors %}
+      	     <li>{{ error }}</li>
+           {% endfor %}
+         </ul>
+        </div>
+        {% endif %}
       {{form|crispy}}
     </fieldset>
     <div class="form-group">
