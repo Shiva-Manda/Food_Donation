@@ -8,5 +8,5 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: fooddonation-db
+          name: mydb
           property: connectionString
