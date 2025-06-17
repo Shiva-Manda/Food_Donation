@@ -2,15 +2,18 @@ services:
   - type: web
     name: food-donation
     env: python
+    runtime: python
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
-    startCommand: "gunicorn fooddonation.wsgi"
-    preDeployCommand: "python manage.py makemigrations && python manage.py migrate"
+    startCommand: gunicorn fooddonation.wsgi:application
+    preDeployCommand: python manage.py migrate --noinput
     envVars:
       - key: DATABASE_URL
         fromDatabase:
           name: mydb
           property: connectionString
-      - key: SECRET_KEY
-        value: d7!j7-@cvg7xig!2@(n+fp=0viht)%7rua$-8((#@#^x!w-i83
+      - key: DISABLE_COLLECTSTATIC
+        value: 1
+      - key: PYTHONUNBUFFERED
+        value: 1  
