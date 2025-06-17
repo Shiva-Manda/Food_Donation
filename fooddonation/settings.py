@@ -90,7 +90,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'donateapp/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-
+if not DEBUG:
+    # Enable GZip and caching
+    WHITENOISE_MANIFEST_STRICT = False  # Avoids 500 errors if files are missing
+    WHITENOISE_USE_FINDERS = True
+    WHITENOISE_MAX_AGE = 86400  # 1-day cache for static files
 
 # Authentication
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
