@@ -12,3 +12,5 @@ services:
         fromDatabase:
           name: mydb
           property: connectionString
+      - key: SECRET_KEY
+        value: d7!j7-@cvg7xig!2@(n+fp=0viht)%7rua$-8((#@#^x!w-i83
