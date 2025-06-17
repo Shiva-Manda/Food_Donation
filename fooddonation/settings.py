@@ -5,7 +5,9 @@ import dj_database_url  # for DATABASE_URL support
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Environment-based security settings
-SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure-default-key')
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY:
+    raise Exception("SECRET_KEY not set in environment")
 DEBUG = False
 ALLOWED_HOSTS = ['food-donation-z1aa.onrender.com', 'localhost', '127.0.0.1']
 # Installed applications
