@@ -1,14 +1,13 @@
 services:
   - type: web
-    name: fooddonation
+    name: food-donation-service
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn fooddonation.wsgi
-    staticPublishPath: staticfiles
+    autoDeploy: true
     envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: fooddonation.settings
-      - key: DEBUG
-        value: False
-      - key: ALLOWED_HOSTS
-        value: *
+      - key: DATABASE_URL
+        sync: false
+    preDeployCommand: |
+      python manage.py migrate
+      python manage.py collectstatic --noinput
