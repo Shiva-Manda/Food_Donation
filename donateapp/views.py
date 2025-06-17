@@ -20,7 +20,8 @@ from django.http import HttpResponse
 
 @csrf_exempt
 def health_check(request):
-    return HttpResponse("OK")
+    call_command("migrate")
+    return HttpResponse("Migration Done")
 def signup_view(request):
     try:
         
