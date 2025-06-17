@@ -1,0 +1,56 @@
+{% extends 'donateapp/base.html' %} 
+{% load static %} 
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+  .dashboard-container {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    margin-top: 100px;
+  }
+
+  .dashboard-card {
+    background-color: white;
+    width: 300px;
+    height: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    text-align: center;
+    padding: 30px 20px;
+    transition: 0.3s ease;
+  }
+
+  .dashboard-card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  }
+
+  .dashboard-card a {
+    font-size: 20px;
+    color: #007bff;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-card p {
+    font-size: 22px;
+    font-weight: bold;
+    color: black;
+    margin-top: 30px;
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="dashboard-card">
+    <a href="{% url 'donare' %}">Donate</a>
+    <p>{{ user.username }} Click Here To Donate Food</p>
+  </div>
+
+  <div class="dashboard-card">
+    <a href="{% url 'acceptor' %}">Search Food</a>
+    <p>{{ user.username }} Click Here To Search Food</p>
+  </div>
+</div>
+{% endblock %}
