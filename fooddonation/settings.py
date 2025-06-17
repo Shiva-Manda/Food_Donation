@@ -1,26 +1,14 @@
 from pathlib import Path
 import os
-import dj_database_url
+import dj_database_url  # for DATABASE_URL support
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ========================
-# SECURITY SETTINGS
-# ========================
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-for-local-only')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    CSRF_TRUSTED_ORIGINS = ['https://food-donation-z1aa.onrender.com']
-
-# ========================
-# APPLICATION DEFINITION
-# ========================
+# Environment-based security settings
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DEBUG = True
+ALLOWED_HOSTS = ['food-donation-z1aa.onrender.com', 'localhost', '127.0.0.1']
+# Installed applications
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,14 +16,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Your app
     'donateapp',
+
+    # Third-party
     'crispy_forms',
     'crispy_bootstrap4',
 ]
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = ['bootstrap4']
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static file serving
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -44,25 +40,67 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ========================
-# DATABASE CONFIGURATION
-# ========================
+ROOT_URLCONF = 'fooddonation.urls'
+
+# Templates
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'donateapp.context_processors.notification_count',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'fooddonation.wsgi.application'
+
+# Database: Uses MySQL if DATABASE_URL is set, else falls back to SQLite
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
+        default=os.environ.get('postgresql://mydb_wk4x_user:jJVkrhMIMrOQbUrhG7LNvIAqzxqGox5c@dpg-d18eusodl3ps7389kvv0-a/mydb_wk4x'),
         conn_max_age=600,
-        ssl_require=not DEBUG
+        ssl_require=True
     )
 }
 
-# [Rest of your existing configuration...]
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
 
-# ========================
-# STATIC FILES (WHITENOISE)
-# ========================
+# Internationalization
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_TZ = True
+
+# Static files (CSS, JS, etc.)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'donateapp/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+if not DEBUG:
+    # Enable GZip and caching
+    WHITENOISE_MANIFEST_STRICT = False  # Avoids 500 errors if files are missing
+    WHITENOISE_USE_FINDERS = True
+    WHITENOISE_MAX_AGE = 86400  # 1-day cache for static files
 
-# Remove the trailing comma that was here previously
+# Authentication
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home_authenticated'
+LOGOUT_REDIRECT_URL = 'home_not_authenticated'
+
+# Email backend (for development)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
