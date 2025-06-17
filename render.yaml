@@ -9,5 +9,6 @@ services:
       - key: DATABASE_URL
         sync: false
     preDeployCommand: |
+      python manage.py makemigrations
       python manage.py migrate
       python manage.py collectstatic --noinput
