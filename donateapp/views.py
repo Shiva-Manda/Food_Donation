@@ -12,10 +12,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .models import FoodAcceptor, FoodDonare, Notification
 from .forms import FoodRequestForm
-from django.utils.timezone import now
+from django.views.decorators.csrf import csrf_exempt
 
 
-
+@csrf_exempt
+def health_check(request):
+    return HttpResponse("OK")
 def signup_view(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
