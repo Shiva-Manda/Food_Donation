@@ -14,7 +14,6 @@ db.sqlite3
 !*/migrations/__init__.py
 
 # Static and media
-/staticfiles/
 /media/
 
 # Local env
