@@ -2,48 +2,7 @@
 {% load static %}
 
 {% block home_not_authenticated %}
-<style>
-  .hero-section {
-    background-image: url("{% static 'images/donating.JPG' %}");
-    background-size: cover;
-    background-position: center;
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-  }
-
-  .hero-content {
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 40px;
-    border-radius: 15px;
-    max-width: 700px;
-  }
-
-  .hero-content p {
-    font-size: 24px;
-    font-style: italic;
-    margin-bottom: 20px;
-  }
-
-  .hero-content a {
-    background-color: #ffc107;
-    border: none;
-    color: #000;
-    font-weight: bold;
-    padding: 10px 25px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease-in-out;
-  }
-
-  .hero-content a:hover {
-    background-color: #e0a800;
-    color: #fff;
-  }
-</style>
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
 
 <div class="hero-section">
   <div class="hero-content">
