@@ -21,16 +21,20 @@ from django.utils.timezone import now
 def health_check(request):
     return HttpResponse("OK")
 def signup_view(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Account created successfully!")
-            return redirect('home_authenticated')
-    else:
-        form = UserCreationForm()
-    return render(request, 'donateapp/signup.html', {'form': form})
+    try:
+        
+        if request.method == "POST":
+            form = UserCreationForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                login(request, user)
+                messages.success(request, "Account created successfully!")
+                return redirect('home_authenticated')
+        else:
+            form = UserCreationForm()
+        return render(request, 'donateapp/signup.html', {'form': form})
+    except Exception as e:
+        return HttpResponse(f"Error occurred: {e}")
 
 @login_required
 def home_authenticated(request):
