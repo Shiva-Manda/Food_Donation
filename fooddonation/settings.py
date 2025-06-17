@@ -6,8 +6,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Environment-based security settings
 SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = True
-ALLOWED_HOSTS = ['food-donation-z1aa.onrender.com', 'localhost', '127.0.0.1']
+DEBUG = False
+ALLOWED_HOSTS = ['food-donation.onrender.com', 'localhost', '127.0.0.1']
 # Installed applications
 INSTALLED_APPS = [
     'django.contrib.admin',
