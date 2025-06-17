@@ -1,14 +1,12 @@
 services:
   - type: web
-    name: food-donation-service
+    name: food-donation
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn fooddonation.wsgi
-    autoDeploy: true
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn fooddonation.wsgi"
+    preDeployCommand: "python manage.py makemigrations && python manage.py migrate"
     envVars:
       - key: DATABASE_URL
-        sync: false
-    preDeployCommand: |
-      python manage.py makemigrations
-      python manage.py migrate
-      python manage.py collectstatic --noinput
+        fromDatabase:
+          name: fooddonation-db
+          property: connectionString
