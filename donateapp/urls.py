@@ -19,7 +19,7 @@ urlpatterns = [
     path('search_food/', views.SearchResultsView.as_view(), name="search_food"),
     path("request-food/<int:donation_id>/", RequestView.as_view(), name="request_food"),
     path('notification/', views.NotificationView, name="notification"),
-
+    path('notifications/', views.notifications_view, name='notifications'),
 
     path('signup/', views.signup_view, name="signup"),
     path('about_us/', views.about_us, name='about_us'),
