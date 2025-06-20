@@ -1,148 +1,233 @@
-{% extends 'donateapp/base.html' %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Food Donation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
 
-{% block content %}
-<style>
-  @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
-  }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-  .center-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 90vh;
-    text-align: center;
-    background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fc 100%);
-    padding: 2rem;
-  }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
 
-  .quote-line1 {
-    font-size: 3rem;
-    font-weight: 800;
-    color: #2d3748;
-    background: linear-gradient(to right, #4f46e5, #ec4899);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-  }
+    .center-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fc 100%);
+      padding: 2rem;
+      position: relative;
+    }
 
-  .quote-line2 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    color: #4a5568;
-    margin-top: 1rem;
-    max-width: 600px;
-  }
-
-  .join-button {
-    margin-top: 3rem;
-    padding: 1rem 2.5rem;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: white;
-    background: linear-gradient(to right, #4f46e5, #ec4899);
-    border: none;
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .join-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .join-button:active {
-    transform: translateY(0);
-  }
-
-  .top-nav {
-    position: absolute;
-    top: 1.5rem;
-    right: 2rem;
-    display: flex;
-    gap: 2rem;
-    z-index: 10;
-  }
-
-  .top-nav a {
-    color: #4a5568;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    transition: all 0.3s ease;
-  }
-
-  .top-nav a:hover {
-    color: #4f46e5;
-    background-color: rgba(79, 70, 229, 0.1);
-    text-decoration: none;
-  }
-
-  .food-icon {
-    font-size: 4rem;
-    margin-bottom: 2rem;
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .background-pattern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: radial-gradient(rgba(79, 70, 229, 0.1) 2px, transparent 2px);
-    background-size: 40px 40px;
-    z-index: -1;
-  }
-
-  @media (max-width: 768px) {
     .quote-line1 {
-      font-size: 2rem;
+      font-size: 3rem;
+      font-weight: 800;
+      font-family: 'Century Gothic', sans-serif;
+      color: #2d3748;
+      background: linear-gradient(to right, #4f46e5, #ec4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      animation: fadeIn 1s ease-out;
     }
-    
+
     .quote-line2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #4a5568;
+      margin-top: 1rem;
+      max-width: 600px;
+      animation: fadeIn 1s ease-out 0.3s forwards;
+      opacity: 0;
+    }
+
+    .join-button {
+      margin-top: 3rem;
+      padding: 1rem 2.5rem;
       font-size: 1.25rem;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(to right, #4f46e5, #ec4899);
+      border: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 1s ease-out 0.6s forwards;
+      opacity: 0;
+      z-index: 10;
     }
-    
-    .top-nav {
-      gap: 1rem;
-      right: 1rem;
+
+    .join-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.5);
     }
-  }
-</style>
 
-<div class="background-pattern"></div>
+    .join-button:active {
+      transform: translateY(0);
+    }
 
-<div class="top-nav">
-  <a href="#">About Us</a>
-  <a href="{% url 'login' %}">Login</a>
-</div>
+    .join-button::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      transition: transform 0.5s, opacity 0.5s;
+    }
 
-<div class="center-container">
-  <div class="food-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 2.94L6 21.06"></path>
-      <path d="M12 2.94L18 21.06"></path>
-      <path d="M4.5 10h15"></path>
-      <path d="M12 2.94V10"></path>
-    </svg>
+    .join-button:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    .features-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 4rem;
+      width: 100%;
+      max-width: 1000px;
+      animation: fadeIn 1s ease-out 0.9s forwards;
+      opacity: 0;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      flex: 1;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 250px;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #4f46e5;
+    }
+
+    .feature-title {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #2d3748;
+    }
+
+    .feature-text {
+      color: #4a5568;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .quote-line1 {
+        font-size: 2rem;
+      }
+
+      .quote-line2 {
+        font-size: 1.25rem;
+      }
+
+      .features-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .feature-card {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="center-container">
+    <h1 class="quote-line1">Turn your leftovers into someone's life.</h1>
+    <p class="quote-line2">Share food, share hope</p>
+
+    <!-- 👇 Button links to signup -->
+    <a href="/signup/" class="join-button">Join Us</a>
+
+    <div class="features-container">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <!-- Connect Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9"></path>
+            <path d="M14 17H5"></path>
+            <circle cx="17" cy="17" r="3"></circle>
+            <circle cx="7" cy="7" r="3"></circle>
+          </svg>
+        </div>
+        <h3 class="feature-title">Connect</h3>
+        <p class="feature-text">Connect with local organizations and individuals in need of food donations.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <!-- Shield Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <h3 class="feature-title">Secure</h3>
+        <p class="feature-text">Safe and verified donation process ensuring your food reaches those who need it.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <!-- Impact Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v4"></path>
+            <path d="M12 18v4"></path>
+            <path d="m4.93 4.93 2.83 2.83"></path>
+            <path d="m16.24 16.24 2.83 2.83"></path>
+            <path d="M2 12h4"></path>
+            <path d="M18 12h4"></path>
+            <path d="m4.93 19.07 2.83-2.83"></path>
+            <path d="m16.24 7.76 2.83-2.83"></path>
+          </svg>
+        </div>
+        <h3 class="feature-title">Impact</h3>
+        <p class="feature-text">Track your contributions and see the real difference you're making in your community.</p>
+      </div>
+    </div>
   </div>
-  
-  <h1 class="quote-line1">Turn your leftovers into someone's life.</h1>
-  <p class="quote-line2">Share food, share hope</p>
-
-  <a href="{% url 'signup' %}" class="join-button">Join Us Now</a>
-</div>
-{% endblock %}
+</body>
+</html>
