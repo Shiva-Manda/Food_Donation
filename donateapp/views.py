@@ -23,16 +23,11 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 
 @staff_member_required
-def health_check(request):
-    try:
-        out = io.StringIO()
-        sys.stdout = out
-        call_command("makemigrations", interactive=False, stdout=out)
-        call_command("migrate", interactive=False, stdout=out)
-        sys.stdout = sys.__stdout__  # Reset stdout
-        return JsonResponse({"status": "Makemigrations and Migrate done"})
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
+def apply_migrations(request):
+    call_command("makemigrations", "donateapp", interactive=False)
+    call_command("migrate", interactive=False)
+    return JsonResponse({"status": "Migrations applied successfully"})
+
 def signup_view(request):
     try:
         
