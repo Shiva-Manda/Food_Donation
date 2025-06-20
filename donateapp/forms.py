@@ -11,9 +11,5 @@ class FoodRequestForm(forms.ModelForm):
 class FoodDonareForm(forms.ModelForm):
     class Meta:
         model = FoodDonare
-        fields = ['contact_number', 'address', 'food_details', 'prepared_time', 'expiry_time']
+        fields = ['contact_number', 'address', 'food_details']
 
-        widgets = {
-            'prepared_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'expiry_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-        }
