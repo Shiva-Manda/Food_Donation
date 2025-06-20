@@ -1,13 +1,16 @@
 {% extends 'donateapp/base.html' %}
 {% load static %}
 
-{% block hero_section %}
+{% block content %}
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
-<div class="hero-section">
-  <div class="hero-content">
-    <p>Help us eliminate hunger by donating your surplus food. <br> Be the change!</p>
-    <a href="{% url 'signup' %}">Join Us</a>
-  </div>
+<div class="text-center mt-20">
+  <h1 class="text-3xl font-bold text-indigo-800 mb-4">Welcome to Food Donation Platform</h1>
+  <p class="text-md text-gray-600 mb-6">
+    Help us eliminate hunger by donating your surplus food.<br> Be the change!
+  </p>
+  <a href="{% url 'signup' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-full">
+    Join Us
+  </a>
 </div>
 {% endblock %}
