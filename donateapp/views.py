@@ -11,6 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import FoodAcceptor, FoodDonare, Notification
+from .models import FoodAcceptor
 
 
 def signup_view(request):
@@ -200,3 +201,18 @@ def received_requests(request):
         return redirect('received_requests')
 
     return render(request, 'donateapp/received_requests.html', {'requests': food_requests})
+
+def respond_to_request(request, request_id, action):
+    pickup = get_object_or_404(FoodAcceptor, id=request_id)
+
+    if action == 'accept':
+        pickup.status = 'accepted'
+        pickup.message = f"Your request for '{pickup.food.food_name}' was accepted. Donor contact: {pickup.donor.profile.phone_number}"  # Assuming phone is in profile
+        messages.success(request, "You have accepted the request.")
+    elif action == 'decline':
+        pickup.status = 'declined'
+        pickup.message = f"Your request for '{pickup.food.food_name}' was declined by the donor."
+        messages.info(request, "You have declined the request.")
+
+    pickup.save()
+    return redirect('donor_dashboard')
