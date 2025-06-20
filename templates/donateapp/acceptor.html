@@ -1,35 +1,54 @@
 {% extends 'donateapp/base.html' %}
 {% load static %}
 
+{% block title %}Search Food{% endblock %}
+
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 py-10">
-  <div class="max-w-5xl mx-auto px-4">
-    <h1 class="text-3xl font-bold text-center text-indigo-800 mb-8">Available Food Donations</h1>
+<div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
+  <h1 class="text-2xl font-semibold text-indigo-700 mb-4 text-center">Search Available Food</h1>
 
-    {% if object_list %}
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% for food in object_list %}
-          <div class="bg-white shadow-md rounded-xl p-5 border border-gray-200">
-            <h2 class="text-xl font-semibold text-green-700">{{ food.food_details }}</h2>
-            <p class="mt-2 text-gray-600"><strong>Location:</strong> {{ food.address }}</p>
-            <p class="text-gray-500 text-sm"><strong>Donated By:</strong> {{ food.user.username }}</p>
+  <!-- Search Form -->
+  <form method="get" action="{% url 'search_food' %}" class="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+    <input
+      type="text"
+      name="q"
+      placeholder="Enter location (e.g., Hyderabad, Mumbai)"
+      value="{{ query }}"
+      class="w-full md:w-2/3 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+      required
+    >
+    <button
+      type="submit"
+      class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 transition"
+    >
+      Search
+    </button>
+  </form>
 
-            {% if food.requests.first.status == "Pending" %}
-              <p class="mt-3 text-yellow-600 font-semibold">⚠️ Already Requested by Someone</p>
-            {% else %}
-              <form method="post" action="{% url 'request' food.id %}">
-                {% csrf_token %}
-                <button type="submit" class="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg">
-                  Request This Food
-                </button>
-              </form>
-            {% endif %}
+  <!-- Search Results -->
+  {% if query %}
+    {% if donations %}
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Results for "{{ query }}"</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        {% for donation in donations %}
+          <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-indigo-50 hover:bg-indigo-100 transition">
+            <h3 class="text-lg font-bold text-indigo-800 mb-2">{{ donation.food_details }}</h3>
+            <p><strong>Location:</strong> {{ donation.address }}</p>
+            <p><strong>Contact:</strong> {{ donation.contact_number }}</p>
+            <a
+              href="{% url 'request_food' donation.id %}"
+              class="mt-2 inline-block bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition"
+            >
+              Request Food
+            </a>
           </div>
         {% endfor %}
       </div>
     {% else %}
-      <p class="text-center text-gray-600 mt-10 text-lg">No food donations found for your search.</p>
+      <p class="text-red-600 font-semibold text-center mt-4">No food donations found for "{{ query }}".</p>
     {% endif %}
-  </div>
+  {% else %}
+    <p class="text-gray-500 text-center mt-6">Please enter a location to search for available food donations.</p>
+  {% endif %}
 </div>
 {% endblock %}
