@@ -1,39 +1,51 @@
-{% extends 'donateapp/base.html' %} 
+{% extends 'donateapp/base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
+
 {% block content %}
-<div class="container">
-  <form method="POST">
-    {% csrf_token %}
-    <fieldset class="form-group">
-      <legend class="border-bottom mb-4"><h1>Register Here</h1></legend>
-	{% if form.errors %}
-	<div class="alert alert-danger">
-  	 <ul>
-    	   {% for field in form %}
-      	     {% for error in field.errors %}
-        	 <li>{{ error }}</li>
-      	     {% endfor %}
-    	   {% endfor %}
-    	   {% for error in form.non_field_errors %}
-      	     <li>{{ error }}</li>
-           {% endfor %}
-         </ul>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4 text-center">
+            <h2 class="fw-bold">Register Here</h2>
+          </legend>
+
+          {% if form.errors %}
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              {% for field in form %}
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          {{ form|crispy }}
+        </fieldset>
+
+        <div class="form-group mt-4">
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <button type="submit" class="btn btn-primary w-100">Register</button>
         </div>
-        {% endif %}
-      {{form|crispy}}
-    </fieldset>
-    <div class="form-group">
-      {% if redirect_field_value %}
-      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-      {% endif %}
-      <button type="submit" class = "btn btn-outline-info">Register</button>
+      </form>
+
+      <div class="border-top pt-4 text-center mt-3">
+        <small class="text-muted">
+          Already have an account?
+          <a href="{% url 'login' %}" class="text-primary ms-1">Login</a>
+        </small>
+      </div>
     </div>
-  </form>
-  <div class="border-top pt-4">
-    <small class="text-muted">Already have an account?
-      <a class="ml-2" href="{% url 'login' %}"><font class = "text-primary" >Login</font></a>
-    </small>
   </div>
 </div>
 {% endblock content %}
