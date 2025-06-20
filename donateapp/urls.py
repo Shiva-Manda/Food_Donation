@@ -22,6 +22,6 @@ urlpatterns = [
     path('signup/', views.signup_view, name="signup"),
     path('about_us/', views.about_us, name='about_us'),
     path("donor_notifications/", views.DonorNotificationView, name="donor_notifications"),
-    path("receive_requests/", views.received_requests, name="receive_requests"),
+    path("received_requests/", views.received_requests, name="received_requests"),
 
 ]
