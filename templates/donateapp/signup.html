@@ -1,51 +1,29 @@
 {% extends 'donateapp/base.html' %}
-{% load crispy_forms_tags %}
 {% load static %}
 
-{% block content %}
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <form method="POST" novalidate>
-        {% csrf_token %}
-        <fieldset class="form-group">
-          <legend class="border-bottom mb-4 text-center">
-            <h2 class="fw-bold">Register Here</h2>
-          </legend>
-
-          {% if form.errors %}
-          <div class="alert alert-danger">
-            <ul class="mb-0">
-              {% for field in form %}
-                {% for error in field.errors %}
-                  <li>{{ error }}</li>
-                {% endfor %}
-              {% endfor %}
-              {% for error in form.non_field_errors %}
-                <li>{{ error }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-          {% endif %}
-
-          {{ form|crispy }}
-        </fieldset>
-
-        <div class="form-group mt-4">
-          {% if redirect_field_value %}
-          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-          {% endif %}
-          <button type="submit" class="btn btn-primary w-100">Register</button>
-        </div>
-      </form>
-
-      <div class="border-top pt-4 text-center mt-3">
-        <small class="text-muted">
-          Already have an account?
-          <a href="{% url 'login' %}" class="text-primary ms-1">Login</a>
-        </small>
-      </div>
-    </div>
+{% block hero_section %}
+<div class="relative">
+  <img src="{% static 'images/hero.jpg' %}" class="w-full h-96 object-cover" alt="Signup Hero Image">
+  <div class="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4 bg-black bg-opacity-40">
+    <h1 class="text-4xl font-bold mb-2">Join Us Today</h1>
+    <p class="text-lg">Create an account to start donating or requesting food.</p>
   </div>
 </div>
-{% endblock content %}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold mb-6 text-center text-indigo-700">Sign Up</h2>
+  <form method="POST" class="space-y-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded">
+      Register
+    </button>
+  </form>
+  <p class="mt-4 text-center text-sm text-gray-600">
+    Already have an account?
+    <a href="{% url 'login' %}" class="text-indigo-600 hover:underline">Log in</a>
+  </p>
+</div>
+{% endblock %}
