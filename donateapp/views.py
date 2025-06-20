@@ -124,7 +124,7 @@ class RequestView(CreateView):
         notif_msg = f"{user.username} requested your donation: {donation.food_details[:20]}"
         notif = Notification(user=donation.user, notification=notif_msg)
         notif.save()
-
+        request.session["popup"] = f"New food request from {user.username}"
         return super().form_valid(form)
 
 
@@ -163,7 +163,7 @@ def NotificationView(request):
                 ).exclude(id=food_request.id).update(status="Declined")
 
                 messages.success(request, "Request accepted successfully.")
-
+                request.session["popup"] = "Your food request was accepted!"
             elif action == "decline":
                 food_request.status = "Declined"
                 food_request.save()
@@ -174,14 +174,14 @@ def NotificationView(request):
                 )
 
                 messages.info(request, "Request declined.")
-
+                request.session["popup"] = "Your food request was declined."
         else:
             
             notifications.delete()
             messages.success(request, "Notifications cleared.")
 
         return redirect("notification")
-
+    request.session.pop("popup", None)
     return render(
         request,
         "donateapp/see_notification.html",
