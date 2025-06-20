@@ -4,7 +4,7 @@ from .views import RequestView
 urlpatterns = [
     
     path('', views.home_not_authenticated, name='home_not_authenticated'),
-    path('health/',views.health_check),
+    path('health/',views.health_check,name='health_check'),
     path('home_authenticated/', views.home_authenticated, name="home_authenticated"),
     path('donare/', views.FoodDonareCreateView.as_view(), name="donare"),
     path('display_donare/', views.DonareDisplayView.as_view(), name="display_donare"),
