@@ -40,14 +40,10 @@ def signup_view(request):
 def about_us(request):
     return render(request, 'donateapp/about_us.html')
 @login_required
-def home(request):
-    if request.user.is_authenticated:
-        return render(request, 'donateapp/home_authenticated.html')
-    else:
-        return render(request, 'donateapp/home_not_authenticated.html')
-@login_required
 def home_authenticated(request):
     return render(request, 'donateapp/home_authenticated.html')
+def home_not_authenticated(request):
+    return render(request, 'donateapp/home_not_authenticated.html')
 class FoodDonareCreateView(SuccessMessageMixin, CreateView):
     model = FoodDonare
     template_name = 'donateapp/donare.html'
