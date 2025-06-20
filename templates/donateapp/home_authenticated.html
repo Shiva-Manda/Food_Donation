@@ -4,18 +4,27 @@
 {% block content %}
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 relative overflow-hidden py-12 px-4">
 
-  <!-- Navigation buttons at top left -->
-  <div class="absolute top-4 left-4 flex space-x-3">
-    <a href="{% url 'about_us' %}" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-medium py-2 px-4 rounded-full transition duration-200 text-sm">
-      About Us
-    </a>
-    <a href="{% url 'logout' %}" class="bg-pink-100 hover:bg-pink-200 text-pink-700 font-medium py-2 px-4 rounded-full transition duration-200 text-sm">
-      Logout
-    </a>
+  <!-- Black Header Section -->
+  <div class="fixed top-0 left-0 right-0 h-12 bg-black flex items-center justify-between px-6 z-50">
+    <!-- Left side buttons -->
+    <div class="flex space-x-4">
+      <a href="#" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
+        View Requests
+      </a>
+      <a href="#" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
+        Notifications
+      </a>
+      <a href="{% url 'logout' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
+        Logout
+      </a>
+    </div>
+    
+    <!-- Right side title -->
+    <div class="text-white font-bold text-lg">Online Food Donation</div>
   </div>
 
-  <!-- Main content centered -->
-  <div class="flex flex-col items-center justify-center h-full pt-16">
+  <!-- Main content centered (added pt-16 to account for fixed header) -->
+  <div class="flex flex-col items-center justify-center h-full pt-16 mt-12">
     <div class="text-center mb-10">
       <h1 class="text-4xl font-bold text-indigo-600 mb-3">Food Sharing Hub</h1>
       <p class="text-lg text-gray-600 max-w-lg">
