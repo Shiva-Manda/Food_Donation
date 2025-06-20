@@ -3,44 +3,67 @@
 
 {% block content %}
 <style>
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
   .center-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 75vh;
+    min-height: 90vh;
     text-align: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fc 100%);
+    padding: 2rem;
   }
 
   .quote-line1 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #1f2937; /* gray-800 */
+    font-size: 3rem;
+    font-weight: 800;
+    color: #2d3748;
+    background: linear-gradient(to right, #4f46e5, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    line-height: 1.2;
   }
 
   .quote-line2 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: #4b5563; /* gray-700 */
-    margin-top: 0.5rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-top: 1rem;
+    max-width: 600px;
   }
 
   .join-button {
-    margin-top: 2rem;
-    padding: 0.6rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 500;
+    margin-top: 3rem;
+    padding: 1rem 2.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
     color: white;
-    background-color: #2563eb; /* blue-600 */
+    background: linear-gradient(to right, #4f46e5, #ec4899);
     border: none;
     border-radius: 9999px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
   }
 
   .join-button:hover {
-    background-color: #1d4ed8; /* blue-700 */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .join-button:active {
+    transform: translateY(0);
   }
 
   .top-nav {
@@ -48,19 +71,59 @@
     top: 1.5rem;
     right: 2rem;
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
+    z-index: 10;
   }
 
   .top-nav a {
-    color: #374151; /* gray-700 */
-    font-weight: 500;
+    color: #4a5568;
+    font-weight: 600;
     text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
   }
 
   .top-nav a:hover {
-    text-decoration: underline;
+    color: #4f46e5;
+    background-color: rgba(79, 70, 229, 0.1);
+    text-decoration: none;
+  }
+
+  .food-icon {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .background-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(rgba(79, 70, 229, 0.1) 2px, transparent 2px);
+    background-size: 40px 40px;
+    z-index: -1;
+  }
+
+  @media (max-width: 768px) {
+    .quote-line1 {
+      font-size: 2rem;
+    }
+    
+    .quote-line2 {
+      font-size: 1.25rem;
+    }
+    
+    .top-nav {
+      gap: 1rem;
+      right: 1rem;
+    }
   }
 </style>
+
+<div class="background-pattern"></div>
 
 <div class="top-nav">
   <a href="#">About Us</a>
@@ -68,9 +131,18 @@
 </div>
 
 <div class="center-container">
-  <h1 class="quote-line1">Turn your leftovers into someone’s life.</h1>
+  <div class="food-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2.94L6 21.06"></path>
+      <path d="M12 2.94L18 21.06"></path>
+      <path d="M4.5 10h15"></path>
+      <path d="M12 2.94V10"></path>
+    </svg>
+  </div>
+  
+  <h1 class="quote-line1">Turn your leftovers into someone's life.</h1>
   <p class="quote-line2">Share food, share hope</p>
 
-  <a href="{% url 'signup' %}" class="join-button">Join Us</a>
+  <a href="{% url 'signup' %}" class="join-button">Join Us Now</a>
 </div>
 {% endblock %}
