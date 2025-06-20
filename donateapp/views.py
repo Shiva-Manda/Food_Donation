@@ -19,6 +19,8 @@ from django.core.management import call_command
 from django.http import JsonResponse
 import io
 import sys
+from django.contrib.admin.views.decorators import staff_member_required
+
 
 @staff_member_required
 def health_check(request):
