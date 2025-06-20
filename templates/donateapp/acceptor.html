@@ -3,60 +3,66 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div style="margin-left:300px;margin-top:30px;">
-  <form class="form-inline my-2 my-lg-0" action="{% url 'search_food' %}" method="get">
-      <input class="form-control col-lg-7" name="q" type="search" placeholder="Search Food By Address" aria-label="Search">
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <button class="btn btn-outline-success my-5 my-sm-0" type="submit">
-        <i class="fas fa-search"></i> &nbsp;&nbsp;Search
-      </button>
+<div class="max-w-5xl mx-auto px-4 py-10">
+  <!-- Search Bar -->
+  <form action="{% url 'search_food' %}" method="get" class="flex flex-col sm:flex-row items-center gap-4 mb-10">
+    <input 
+      name="q" 
+      type="search" 
+      placeholder="Search Food By Address"
+      class="w-full sm:w-3/4 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg transition duration-200">
+      🔍 Search
+    </button>
   </form>
-</div>
 
-{% if object_list %}
-<div class="container mt-5">
-  <div class="row d-flex justify-content-center">
-    <div class="col-md-8">
+  {% if object_list %}
+    <div class="grid gap-6">
       {% for detail in object_list %}
-        <div class="card p-3">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="user d-flex flex-row align-items-center">
-              <span>
-                <small class="font-weight-bold text-primary">User Name: {{ detail.user }}</small><br>
-                <small class="font-weight-bold">Contact Number: {{ detail.contact_number }}</small><br>
-                <small class="font-weight-bold">Address: {{ detail.address }}</small><br>
-                <small class="font-weight-bold">Food Detail: {{ detail.food_details }}</small>
-              </span>
+        <div class="bg-white p-6 rounded-xl shadow-md">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+            <div>
+              <p class="text-lg font-semibold text-blue-600">User Name: {{ detail.user }}</p>
+              <p class="text-gray-700">Contact Number: {{ detail.contact_number }}</p>
+              <p class="text-gray-700">Address: {{ detail.address }}</p>
+              <p class="text-gray-700">Food Detail: {{ detail.food_details }}</p>
             </div>
-            <small class="font-weight-bold text-success">Date and Time: {{ detail.donate_date }}</small>
+            <div class="text-sm text-green-600 font-medium mt-4 sm:mt-0">
+              Date and Time: {{ detail.donate_date }}
+            </div>
           </div>
-          <br>
 
-          {% if detail.user != request.user %}
+          <div class="mt-4">
+            {% if detail.user != request.user %}
               {% if detail.requests.all %}
-                  {% with detail.requests.first as req %}
-                      {% if req.status == 'Pending' %}
-                          <p class="text-warning font-weight-bold">This food is already requested and waiting for confirmation.</p>
-                      {% elif req.status == 'Declined' %}
-                          <a href="{% url 'request' detail.id %}" class="btn btn-primary">Request Food</a>
-                      {% else %}
-                          <p class="text-muted font-weight-bold">This food has already been accepted and is not available.</p>
-                      {% endif %}
-                  {% endwith %}
+                {% with detail.requests.first as req %}
+                  {% if req.status == 'Pending' %}
+                    <p class="text-yellow-600 font-semibold">This food is already requested and waiting for confirmation.</p>
+                  {% elif req.status == 'Declined' %}
+                    <a href="{% url 'request' detail.id %}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
+                      Request Food
+                    </a>
+                  {% else %}
+                    <p class="text-gray-500 font-semibold">This food has already been accepted and is not available.</p>
+                  {% endif %}
+                {% endwith %}
               {% else %}
-                  <a href="{% url 'request' detail.id %}" class="btn btn-primary">Request Food</a>
+                <a href="{% url 'request' detail.id %}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
+                  Request Food
+                </a>
               {% endif %}
-          {% else %}
-              <p class="text-info font-weight-bold">You donated this food.</p>
-          {% endif %}
+            {% else %}
+              <p class="text-info font-semibold text-blue-500">You donated this food.</p>
+            {% endif %}
+          </div>
         </div>
-        <br>
       {% endfor %}
     </div>
-  </div>
+  {% else %}
+    <div class="text-center mt-32">
+      <h1 class="text-2xl font-bold text-red-500">No search result found.</h1>
+    </div>
+  {% endif %}
 </div>
-{% else %}
-  <br><br><br><br>
-  <h1 class="font-weight-bold text-danger text-center">No search result found.</h1>
-{% endif %}
 {% endblock content %}
