@@ -1,23 +1,39 @@
-{% extends 'donateapp/base.html' %}
+{% extends 'dashboard/base.html' %} 
+{% block content %}
 {% load crispy_forms_tags %}
 
-{% block content %}
-<div class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md">
-  <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ user.username }}, please fill this form to request food</h2>
+{% comment %} <section class='text-center container'>
+    <div class="container">
+        <div class="content-section p-0 mt-1">
+            <div class="m-1">
+                <h2>Username:- {{donare.user.username}}</h2>
+            </div>
+            <hr class="p-0 m-0"><br><br>
+        <div class="text-dark bg-white">
+            <h4>Date and Time :- {{donare.donate_date}}</h4>
+            <h4>Conatct Number:- {{donare.contact_number}}</h4>
+            <h4>Address:- {{donare.address}}</h4>
+            <h5 class="description m-3 p-3">
+            Food Detail:- {{donare.food_details}}
+            </h5>
+            <a href="{% url 'request' %}" type="button" class="btn btn-secondary btn-m active" >Request For Food</a>
+        </div>
+        </div>
+    </div> {% endcomment %}
+{% comment %}   
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">{{user.username}} Please Fill This Form for food Request </legend>
+            </fieldset>
+            {{form|crispy}}
+            <div class="form-group">
+                <button href="" class="btn btn-secondary btn-m active" type="submit">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div> {% endcomment %}
 
-  <form method="POST">
-    {% csrf_token %}
-    
-    <!-- Crispy form render -->
-    <div class="space-y-4">
-      {{ form|crispy }}
-    </div>
-
-    <div class="mt-6">
-      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200">
-        Submit
-      </button>
-    </div>
-  </form>
-</div>
 {% endblock content %}
