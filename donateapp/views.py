@@ -89,17 +89,21 @@ def acceptor(request):
 class SearchResultsView(ListView):
     model = FoodDonare
     template_name = "donateapp/acceptor.html"
-    FoodDonare.objects.filter(
-    expiry_time__gt=now()
-    )
+    context_object_name='donations'
 
     def get_queryset(self):
         query = self.request.GET.get("q")
+        if not query:
+            return FoodDonare.objects.none()
         user = self.request.user
         donations = FoodDonare.objects.filter(address__icontains=query)
         donations = donations.exclude(user=user)  # Exclude own food
         donations = donations.exclude(requests__status="Accepted")  # Hide accepted
         return donations
+    def get_context_data(self,**kwargs):
+        context=super().get_context_data(**kwargs)
+        context["query"]=self.request.GET.get("q","")
+        return context
 
 
 
