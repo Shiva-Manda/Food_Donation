@@ -1,62 +1,34 @@
-{% extends 'donateapp/base.html' %}
+{% extends 'dashboard/base.html' %} 
 {% load static %}
-{% load crispy_forms_tags %}
-
 {% block content %}
-<div style="margin-left:300px;margin-top:30px;">
-  <form class="form-inline my-2 my-lg-0" action="{% url 'search_food' %}" method="get">
-      <input class="form-control col-lg-7" name="q" type="search" placeholder="Search Food By Address" aria-label="Search">
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <button class="btn btn-outline-success my-5 my-sm-0" type="submit">
-        <i class="fas fa-search"></i> &nbsp;&nbsp;Search
-      </button>
+ <div style="margin-left:300px;margin-top:30px;">
+<form class="form-inline my-2 my-lg-0" action="{% url 'search_food' %}" method="get">
+    <input class="form-control col-lg-7" name="q" type="search" placeholder="Search Food By Adress" aria-label="Search">&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-outline-success my-5 my-sm-0" type="submit"><i class="fas fa-search"></i> &nbsp;&nbsp;Search</button>
   </form>
 </div>
-
-{% if object_list %}
-<div class="container mt-5">
-  <div class="row d-flex justify-content-center">
-    <div class="col-md-8">
-      {% for detail in object_list %}
-        <div class="card p-3">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="user d-flex flex-row align-items-center">
-              <span>
-                <small class="font-weight-bold text-primary">User Name: {{ detail.user }}</small><br>
-                <small class="font-weight-bold">Contact Number: {{ detail.contact_number }}</small><br>
-                <small class="font-weight-bold">Address: {{ detail.address }}</small><br>
-                <small class="font-weight-bold">Food Detail: {{ detail.food_details }}</small>
-              </span>
-            </div>
-            <small class="font-weight-bold text-success">Date and Time: {{ detail.donate_date }}</small>
-          </div>
-          <br>
-
-          {% if detail.user != request.user %}
-              {% if detail.requests.all %}
-                  {% with detail.requests.first as req %}
-                      {% if req.status == 'Pending' %}
-                          <p class="text-warning font-weight-bold">This food is already requested and waiting for confirmation.</p>
-                      {% elif req.status == 'Declined' %}
-                          <a href="{% url 'request' detail.id %}" class="btn btn-primary">Request Food</a>
-                      {% else %}
-                          <p class="text-muted font-weight-bold">This food has already been accepted and is not available.</p>
-                      {% endif %}
-                  {% endwith %}
-              {% else %}
-                  <a href="{% url 'request' detail.id %}" class="btn btn-primary">Request Food</a>
-              {% endif %}
-          {% else %}
-              <p class="text-info font-weight-bold">You donated this food.</p>
-          {% endif %}
+ {% if object_list %}
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+  {% for detail in object_list %}
+      <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="user d-flex flex-row align-items-center"><span><small class="font-weight-bold text-primary">&nbsp;User Name:-&nbsp;&nbsp;{{detail.user}}</small><br><small class="font-weight-bold">Contact Number:- &nbsp;&nbsp;{{detail.contact_number}}</small><br><small class="font-weight-bold">Address:- &nbsp;&nbsp;{{detail.address}}</small><br><small class="font-weight-bold">Food Detail:- &nbsp;&nbsp;{{detail.food_details}}</small> </div> <small  class="font-weight-bold text-success">Date and Time:-&nbsp;&nbsp;{{detail.donate_date}}</small>
         </div>
         <br>
-      {% endfor %}
+        <a href="{% url 'request' %}" type="button" class="btn btn-secondary btn-m active" >Request For Food</a>
     </div>
-  </div>
-</div>
-{% else %}
+     <br> 
+    {% endfor %}
+  {% else %}
   <br><br><br><br>
-  <h1 class="font-weight-bold text-danger text-center">No search result found.</h1>
-{% endif %}
+  <h1 class="font-weight-bold text-danger" style="margin-left:500px;"> No search Found </h1>
+  {% endif %}
+</div>
+</div>
+</div>
+ 
+   
+  
 {% endblock content %}
