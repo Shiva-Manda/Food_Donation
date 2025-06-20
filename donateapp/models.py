@@ -24,12 +24,11 @@ class FoodDonare(models.Model):
 
     
 class Notification(models.Model):
-    user = models.ForeignKey(
-        User, related_name="notification", on_delete=models.CASCADE
-    )
-    notification = models.CharField(max_length=500, default=None)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    is_seen = models.BooleanField(default=False) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  
+    notification = models.TextField()
+
+    def __str__(self):
+        return f"To: {self.user.username} - {self.notification[:30]}"
     
 class FoodAcceptor(models.Model):
     STATUS_CHOICES = [
