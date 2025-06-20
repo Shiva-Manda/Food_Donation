@@ -10,7 +10,7 @@ urlpatterns = [
 
    
     path('login/', auth_views.LoginView.as_view(template_name='donateapp/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home_not_authenticated'), name='logout'),
     path('signup/', donate_views.signup_view, name='signup'),
 
     
