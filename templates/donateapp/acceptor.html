@@ -1,34 +1,35 @@
-{% extends 'donateapp/base.html' %} 
+{% extends 'donateapp/base.html' %}
 {% load static %}
+
 {% block content %}
- <div style="margin-left:300px;margin-top:30px;">
-<form class="form-inline my-2 my-lg-0" action="{% url 'search_food' %}" method="get">
-    <input class="form-control col-lg-7" name="q" type="search" placeholder="Search Food By Adress" aria-label="Search">&nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="btn btn-outline-success my-5 my-sm-0" type="submit"><i class="fas fa-search"></i> &nbsp;&nbsp;Search</button>
-  </form>
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 py-10">
+  <div class="max-w-5xl mx-auto px-4">
+    <h1 class="text-3xl font-bold text-center text-indigo-800 mb-8">Available Food Donations</h1>
+
+    {% if object_list %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for food in object_list %}
+          <div class="bg-white shadow-md rounded-xl p-5 border border-gray-200">
+            <h2 class="text-xl font-semibold text-green-700">{{ food.food_details }}</h2>
+            <p class="mt-2 text-gray-600"><strong>Location:</strong> {{ food.address }}</p>
+            <p class="text-gray-500 text-sm"><strong>Donated By:</strong> {{ food.user.username }}</p>
+
+            {% if food.requests.first.status == "Pending" %}
+              <p class="mt-3 text-yellow-600 font-semibold">⚠️ Already Requested by Someone</p>
+            {% else %}
+              <form method="post" action="{% url 'request' food.id %}">
+                {% csrf_token %}
+                <button type="submit" class="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg">
+                  Request This Food
+                </button>
+              </form>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center text-gray-600 mt-10 text-lg">No food donations found for your search.</p>
+    {% endif %}
+  </div>
 </div>
- {% if object_list %}
-    <div class="container mt-5">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-8">
-  {% for detail in object_list %}
-      <div class="card p-3">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="user d-flex flex-row align-items-center"><span><small class="font-weight-bold text-primary">&nbsp;User Name:-&nbsp;&nbsp;{{detail.user}}</small><br><small class="font-weight-bold">Contact Number:- &nbsp;&nbsp;{{detail.contact_number}}</small><br><small class="font-weight-bold">Address:- &nbsp;&nbsp;{{detail.address}}</small><br><small class="font-weight-bold">Food Detail:- &nbsp;&nbsp;{{detail.food_details}}</small> </div> <small  class="font-weight-bold text-success">Date and Time:-&nbsp;&nbsp;{{detail.donate_date}}</small>
-        </div>
-        <br>
-        <a href="{% url 'request' %}" type="button" class="btn btn-secondary btn-m active" >Request For Food</a>
-    </div>
-     <br> 
-    {% endfor %}
-  {% else %}
-  <br><br><br><br>
-  <h1 class="font-weight-bold text-danger" style="margin-left:500px;"> No search Found </h1>
-  {% endif %}
-</div>
-</div>
-</div>
- 
-   
-  
-{% endblock content %}
+{% endblock %}
