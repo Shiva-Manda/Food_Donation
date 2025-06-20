@@ -216,3 +216,7 @@ def respond_to_request(request, request_id, action):
 
     pickup.save()
     return redirect('donor_dashboard')
+
+ef notifications_view(request):
+    pickups = FoodAcceptor.objects.filter(acceptor=request.user).exclude(status='pending')
+    return render(request, 'mydonation/notifications.html', {'pickups': pickups})
