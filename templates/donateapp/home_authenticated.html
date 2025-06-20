@@ -4,6 +4,30 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+<!-- Navigation Bar -->
+<nav class="bg-white shadow-md rounded-xl mb-8 px-6 py-3 flex justify-between items-center max-w-6xl mx-auto">
+  <div>
+    <span class="text-indigo-700 font-bold text-lg">FoodShare</span>
+  </div>
+  <div class="space-x-6 flex items-center">
+    <a href="{% url 'about_us' %}" class="text-gray-700 hover:text-indigo-600 font-medium">About Us</a>
+    <a href="{% url 'donor_notifications' %}" class="text-gray-700 hover:text-indigo-600 font-medium">Notifications</a>
+    <a href="{% url 'received_requests' %}" class="text-gray-700 hover:text-indigo-600 font-medium">View Requests</a>
+
+    <!-- Profile Dropdown -->
+    <div class="relative group">
+      <button class="text-gray-700 hover:text-indigo-600 font-medium focus:outline-none">
+        Profile
+      </button>
+      <div class="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg hidden group-hover:block group-hover:animate-fadeIn z-10">
+        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50">My Profile</a>
+        <a href="{% url 'logout' %}" class="block px-4 py-2 text-red-600 hover:bg-red-100">Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Dashboard Welcome -->
 <div class="text-center mb-10">
   <h1 class="text-3xl font-bold text-indigo-800 mb-2">Food Sharing Dashboard</h1>
   <p class="text-md text-gray-600">
@@ -12,7 +36,8 @@
   </p>
 </div>
 
-<div class="flex flex-col md:flex-row justify-center items-center gap-8 max-w-3xl mx-auto">
+<!-- Action Cards -->
+<div class="flex flex-col md:flex-row justify-center items-center gap-8 max-w-4xl mx-auto">
   <!-- Donate Card -->
   <div class="bg-white rounded-xl shadow-md p-6 w-full md:w-1/2">
     <h2 class="text-xl font-bold text-gray-800 mb-2">Donate Food</h2>
