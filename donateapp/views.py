@@ -133,6 +133,7 @@ def NotificationView(request):
     requests = FoodAcceptor.objects.filter(
         donation__user=request.user, status="Pending"
     )
+    Notification.objects.filter(user=request.user, is_seen=False).update(is_seen=True)
 
     if request.method == "POST":
         
@@ -225,7 +226,7 @@ def received_requests(request):
     donations = FoodDonare.objects.filter(user=request.user)
 
     food_requests = FoodAcceptor.objects.filter(donation__in=donations, status='Pending')
-
+    Notification.objects.filter(user=request.user, is_seen=False).update(is_seen=True)
     if request.method == 'POST':
         request_id = request.POST.get('request_id')
         action = request.POST.get('action')
