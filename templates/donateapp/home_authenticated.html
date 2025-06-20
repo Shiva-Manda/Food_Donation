@@ -1,20 +1,65 @@
-<!-- Header with Navigation -->
-<nav class="bg-white shadow-md px-6 py-3 mb-6 flex justify-between items-center">
-  <!-- Left Side Links -->
-  <div class="flex items-center space-x-6">
-    <a href="{% url 'about_us' %}" class="text-gray-700 hover:text-indigo-600 font-medium">About Us</a>
-    <a href="{% url 'notification' %}" class="text-gray-700 hover:text-indigo-600 font-medium">Notifications</a>
-    <a href="{% url 'received_requests' %}" class="text-gray-700 hover:text-indigo-600 font-medium">View Requests</a>
+{% extends 'donateapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 relative overflow-hidden py-12 px-4">
+
+  <!-- Navigation buttons at top left -->
+  <div class="absolute top-4 left-4 flex space-x-3">
+    <a href="{% url 'about_us' %}" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-medium py-2 px-4 rounded-full transition duration-200 text-sm">
+      About Us
+    </a>
+    <a href="{% url 'logout' %}" class="bg-pink-100 hover:bg-pink-200 text-pink-700 font-medium py-2 px-4 rounded-full transition duration-200 text-sm">
+      Logout
+    </a>
   </div>
 
-  <!-- Right Side Logout Button -->
-  <div>
-    <form method="POST" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <button type="submit"
-        class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
-        Logout
-      </button>
-    </form>
+  <!-- Main content centered -->
+  <div class="flex flex-col items-center justify-center h-full pt-16">
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-bold text-indigo-600 mb-3">Food Sharing Hub</h1>
+      <p class="text-lg text-gray-600 max-w-lg">
+        Welcome back, <span class="font-semibold text-indigo-500">{{ request.user.username }}</span>! 
+        Let's work together to reduce food waste.
+      </p>
+    </div>
+
+    <div class="flex flex-col md:flex-row justify-center items-center gap-8 max-w-4xl mx-auto">
+      
+      <!-- Donate Card -->
+      <div class="dashboard-card w-full md:w-1/2 bg-white rounded-2xl shadow-lg p-8 relative transition-all hover:shadow-xl border-t-4 border-green-300">
+        <div class="flex flex-col items-center">
+          <div class="card-icon bg-green-50 p-5 rounded-full mb-5 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h.01M15 12h.01" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-3">Donate Food</h2>
+          <p class="text-gray-600 mb-6 text-center">Share your excess food with those in need in your community</p>
+          <a href="{% url 'donare' %}" class="bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-medium py-3 px-8 rounded-full transition duration-300 ease-in-out shadow-md hover:shadow-lg">
+            Start Donating
+          </a>
+        </div>
+      </div>
+
+      <!-- Search Card -->
+      <div class="dashboard-card w-full md:w-1/2 bg-white rounded-2xl shadow-lg p-8 relative transition-all hover:shadow-xl border-t-4 border-blue-300">
+        <div class="flex flex-col items-center">
+          <div class="card-icon bg-blue-50 p-5 rounded-full mb-5 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 10l-2 2m0 0l-2-2m2 2l2-2m0 0l2 2" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-3">Find Food</h2>
+          <p class="text-gray-600 mb-6 text-center">Discover available food donations near your location</p>
+          <a href="{% url 'acceptor' %}" class="bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-medium py-3 px-8 rounded-full transition duration-300 ease-in-out shadow-md hover:shadow-lg">
+            Search Now
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
-</nav>
+</div>
+{% endblock %}
