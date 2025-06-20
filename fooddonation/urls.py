@@ -6,6 +6,7 @@ from donateapp import views as donate_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('donateapp.urls')),
+    path('',views.home,name='home'),
 
    
     path('login/', auth_views.LoginView.as_view(template_name='donateapp/login.html'), name='login'),
