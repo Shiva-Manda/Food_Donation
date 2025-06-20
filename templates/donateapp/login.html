@@ -1,24 +1,90 @@
-{% extends 'donateapp/base.html' %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg, #89f7fe, #66a6ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 400px;
+    }
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      background-color: #f9f9f9;
+      margin-bottom: 20px;
+    }
+    button {
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .footer-text {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .footer-text a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login to Your Account</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" required>
 
-{% block title %}Login{% endblock %}
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
 
-{% block content %}
-<div class="max-w-md mx-auto mt-20 bg-white p-8 rounded-lg shadow-lg">
-  <h2 class="text-2xl font-bold mb-6 text-center text-indigo-700">Login to Your Account</h2>
-
-  <form method="POST" action="{% url 'login' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded mt-4">
-      Login
-    </button>
-  </form>
-
-  <p class="mt-4 text-center text-sm text-gray-600">
-    Don't have an account? 
-    <a href="{% url 'signup' %}" class="text-indigo-600 hover:underline">Sign up here</a>.
-  </p>
-</div>
-{% endblock %}
+      <button type="submit">Login</button>
+    </form>
+    <div class="footer-text">
+      Don’t have an account? <a href="{% url 'register' %}">Register here</a>
+    </div>
+  </div>
+</body>
+</html>
