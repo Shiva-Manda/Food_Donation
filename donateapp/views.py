@@ -16,20 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.timezone import now
 from django.http import HttpResponse
 from django.core.management import call_command
-from django.http import JsonResponse
-import io
-import sys
-from django.contrib.admin.views.decorators import staff_member_required
 
-
-@csrf_exempt
-def migrate_view(request):
-    try:
-        call_command("makemigrations", "donateapp", interactive=False, verbosity=0)
-        call_command("migrate", interactive=False, verbosity=0)
-        return HttpResponse("Migration completed successfully.")
-    except Exception as e:
-        return HttpResponse(f"Migration failed: {e}")
 
 def signup_view(request):
     try:
