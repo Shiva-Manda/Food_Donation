@@ -1,94 +1,50 @@
 <!DOCTYPE html>
 {% extends 'donateapp/base.html' %}
-{% load static %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container py-5">
-  <!-- Back button -->
-  <a href="{% url 'home_authenticated' %}" class="btn btn-outline-primary mb-4">
-    <i class="fas fa-arrow-left mr-2"></i> Back to Home
-  </a>
+<br><br>
 
-  <!-- Notification Header -->
-  <div class="text-center mb-5">
-    <div class="d-inline-block bg-primary bg-opacity-10 p-3 rounded-circle mb-3">
-      <i class="fas fa-bell fa-2x text-primary"></i>
-    </div>
-    <h2 class="fw-bold text-primary">Your Notifications</h2>
-    <p class="text-muted">Stay updated with your recent activities</p>
-  </div>
-
-  <!-- Notification Cards -->
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      {% if notifications %}
-        <div class="notification-list">
-          {% for notification in notifications %}
-          <div class="card shadow-sm mb-3 border-0 rounded-lg notification-card">
-            <div class="card-body py-3">
-              <div class="d-flex align-items-start">
-                <div class="me-3">
-                  <div class="bg-{% if 'accepted' in notification.notification %}success{% elif 'declined' in notification.notification %}danger{% else %}info{% endif %} bg-opacity-10 p-2 rounded-circle">
-                    <i class="fas fa-{% if 'accepted' in notification.notification %}check-circle{% elif 'declined' in notification.notification %}times-circle{% else %}info-circle{% endif %} text-{% if 'accepted' in notification.notification %}success{% elif 'declined' in notification.notification %}danger{% else %}info{% endif %}"></i>
-                  </div>
-                </div>
-                <div class="flex-grow-1">
-                  <h5 class="mb-1">{{ notification.notification }}</h5>
-                  <small class="text-muted">{{ notification.created_at|timesince }} ago</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-
-        <!-- Clear Notifications Button -->
-        <div class="text-center mt-4">
-          <form method="post">
+<!-- Section 1: Show Food Requests if User is a Donor -->
+{% if requests %}
+  <div class="container">
+    <h3 class="text-primary mb-4">Food Requests for Your Donations</h3>
+    {% for req in requests %}
+      <div class="card my-3">
+        <div class="card-body">
+          <p><strong>From:</strong> {{ req.user.username }}</p>
+          <p><strong>Message:</strong> {{ req.any_message }}</p>
+          <form method="POST">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary px-4 py-2">
-              <i class="fas fa-trash-alt mr-2"></i> Clear All Notifications
-            </button>
+            <input type="hidden" name="request_id" value="{{ req.id }}">
+            <button name="action" value="accept" class="btn btn-success mr-2">Accept</button>
+            <button name="action" value="decline" class="btn btn-danger">Decline</button>
           </form>
         </div>
-      {% else %}
-        <!-- Empty State -->
-        <div class="text-center py-5">
-          <div class="bg-light p-4 rounded-circle d-inline-block mb-3">
-            <i class="fas fa-bell-slash fa-3x text-muted"></i>
-          </div>
-          <h4 class="text-muted">No Notifications Yet</h4>
-          <p class="text-muted">You'll see important updates here when available</p>
-        </div>
-      {% endif %}
-    </div>
+      </div>
+    {% endfor %}
   </div>
+{% endif %}
+
+<!-- Section 2: Notifications (for any user) -->
+<hr>
+<div class="container mt-4">
+  <h3 class="text-info mb-3">Your Notifications</h3>
+
+  {% if notifications %}
+    <ol>
+      {% for notification in notifications %}
+        <li><h5><span style="color:red;">{{ notification.notification }}</span></h5></li>
+      {% endfor %}
+    </ol>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-success mt-4">Clear Notifications</button>
+    </form>
+  {% else %}
+    <h5 class="text-danger mt-5">No notification found!!</h5>
+  {% endif %}
 </div>
 
-<style>
-  .notification-card {
-    transition: all 0.3s ease;
-    border-left: 4px solid var(--bs-primary);
-  }
-  .notification-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-  .notification-list {
-    max-height: 500px;
-    overflow-y: auto;
-    padding-right: 10px;
-  }
-  /* Custom scrollbar */
-  .notification-list::-webkit-scrollbar {
-    width: 5px;
-  }
-  .notification-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  .notification-list::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-  }
-</style>
 {% endblock %}
