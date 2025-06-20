@@ -8,17 +8,17 @@
   <div class="fixed top-0 left-0 right-0 h-12 bg-black flex items-center justify-between px-6 z-50">
     <!-- Left side buttons -->
     <div class="flex space-x-4">
-  <a href="{% url 'received_requests' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
-    View Requests
-  </a>
-  <a href="{% url 'notifications' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
-    Notifications
-  </a>
-  <a href="{% url 'home_not_authenticated' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
-    Logout
-  </a>
-</div>
-    
+      <a href="{% url 'received_requests' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
+        View Requests
+      </a>
+      <a href="{% url 'notifications' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
+        Notifications
+      </a>
+      <a href="{% url 'home_not_authenticated' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
+        Logout
+      </a>
+    </div>
+
     <!-- Right side title -->
     <div class="text-white font-bold text-lg">Online Food Donation</div>
   </div>
@@ -28,8 +28,12 @@
     <div class="text-center mb-10">
       <h1 class="text-4xl font-bold text-indigo-600 mb-3">Food Sharing Hub</h1>
       <p class="text-lg text-gray-600 max-w-lg">
-        Welcome back, <span class="font-semibold text-indigo-500">{{ request.user.username }}</span>! 
-        Let's work together to reduce food waste.
+        {% if user.is_authenticated %}
+          Welcome back, <span class="font-semibold text-indigo-500">{{ user.username }}</span>! 
+          Let's work together to reduce food waste.
+        {% else %}
+          Welcome Guest! Please <a href="{% url 'login' %}" class="text-indigo-600 underline">log in</a> to continue.
+        {% endif %}
       </p>
     </div>
 
