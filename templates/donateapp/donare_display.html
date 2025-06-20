@@ -1,52 +1,77 @@
-{% extends 'donateapp/base.html' %}
+{% extends 'donateapp/base.html' %} 
 {% load static %}
 {% load crispy_forms_tags %}
-
+ 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center mb-4 text-primary">Your Food Donations</h2>
 
-    {% if donare %}
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Sr. No.</th>
-                    <th>User Name</th>
-                    <th>Date & Time</th>
-                    <th>Contact</th>
-                    <th>Address</th>
-                    <th>Food Details</th>
-                    <th>View</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in donare %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ item.donate_date }}</td>
-                    <td>{{ item.contact_number }}</td>
-                    <td>{{ item.address|truncatechars:40 }}</td>
-                    <td>{{ item.food_details|truncatechars:40 }}</td>
-                    <td><a href="{% url 'donare_detail' item.id %}" class="btn btn-sm btn-info">See Full</a></td>
-                    <td><a href="{% url 'update_donare' item.id %}" class="btn btn-sm btn-warning">Edit</a></td>
-                    <td>
-                        <a href="{% url 'delete_donare' item.id %}" class="btn btn-sm btn-danger">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="container mt-4">
+    <a href="{% url 'home_authenticated' %}" class="btn btn-light mb-4">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="card shadow-lg" style="background-color: #f8f9fa; border-radius: 15px;">
+        <div class="card-header text-white" style="background-color: #6c757d;">
+            <h2 class="m-0">Donation Details</h2>
+        </div>
+        <div class="card-body p-4">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="info-box p-3 mb-3" style="background-color: #e2f0fd; border-radius: 10px;">
+                        <h5><i class="fas fa-user mr-2"></i> Username:</h5>
+                        <p class="ml-4">{{user.username}}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="info-box p-3 mb-3" style="background-color: #e2f0fd; border-radius: 10px;">
+                        <h5><i class="fas fa-calendar-alt mr-2"></i> Date & Time:</h5>
+                        <p class="ml-4">{{donare.donate_date}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="info-box p-3 mb-3" style="background-color: #e2f0fd; border-radius: 10px;">
+                        <h5><i class="fas fa-phone mr-2"></i> Contact Number:</h5>
+                        <p class="ml-4">{{donare.contact_number}}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="info-box p-3 mb-3" style="background-color: #e2f0fd; border-radius: 10px;">
+                        <h5><i class="fas fa-map-marker-alt mr-2"></i> Address:</h5>
+                        <p class="ml-4">{{donare.address}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box p-3 mb-4" style="background-color: #e2f0fd; border-radius: 10px;">
+                <h5><i class="fas fa-utensils mr-2"></i> Food Details:</h5>
+                <p class="ml-4">{{donare.food_details}}</p>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'update_donare' donare.id %}" class="btn btn-primary px-4 py-2">
+                    <i class="fas fa-edit"></i> Update Details
+                </a>
+                <a href="{% url 'delete_donare' donare.id %}" class="btn btn-danger px-4 py-2">
+                    <i class="fas fa-trash-alt"></i> Delete Details
+                </a>
+            </div>
+        </div>
     </div>
-    {% else %}
-    <div class="alert alert-danger text-center mt-5">
-        <h4>No details found for <strong>{{ user.username }}</strong></h4>
-    </div>
-    {% endif %}
 </div>
+
+<style>
+    .info-box h5 {
+        color: #495057;
+        font-weight: 600;
+    }
+    .info-box p {
+        color: #6c757d;
+        font-size: 1.1rem;
+    }
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+</style>
 {% endblock content %}
