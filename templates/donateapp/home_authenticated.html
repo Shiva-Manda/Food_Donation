@@ -1,56 +1,20 @@
 <!-- Header with Navigation -->
 <nav class="bg-white shadow-md px-6 py-3 mb-6 flex justify-between items-center">
+  <!-- Left Side Links -->
   <div class="flex items-center space-x-6">
     <a href="{% url 'about_us' %}" class="text-gray-700 hover:text-indigo-600 font-medium">About Us</a>
     <a href="{% url 'notification' %}" class="text-gray-700 hover:text-indigo-600 font-medium">Notifications</a>
     <a href="{% url 'received_requests' %}" class="text-gray-700 hover:text-indigo-600 font-medium">View Requests</a>
   </div>
 
-  <!-- Profile Dropdown -->
-  <div class="relative inline-block text-left">
-    <button id="profileToggle" type="button"
-      class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 focus:outline-none"
-      aria-haspopup="true" aria-expanded="false">
-      Profile
-      <svg class="w-4 h-4 ml-1 mt-1" fill="none" stroke="currentColor" stroke-width="2"
-        viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-      </svg>
-    </button>
-
-    <div id="profileDropdown"
-      class="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden z-50">
-      <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="profileToggle">
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
-          Your Profile
-        </a>
-        <form method="POST" action="{% url 'logout' %}">
-          {% csrf_token %}
-          <button type="submit"
-            class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
-            Logout
-          </button>
-        </form>
-      </div>
-    </div>
+  <!-- Right Side Logout Button -->
+  <div>
+    <form method="POST" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit"
+        class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
+        Logout
+      </button>
+    </form>
   </div>
 </nav>
-
-<!-- Toggle Script -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const toggle = document.getElementById('profileToggle');
-    const dropdown = document.getElementById('profileDropdown');
-
-    toggle.addEventListener('click', function (e) {
-      e.preventDefault();
-      dropdown.classList.toggle('hidden');
-    });
-
-    document.addEventListener('click', function (event) {
-      if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.classList.add('hidden');
-      }
-    });
-  });
-</script>
