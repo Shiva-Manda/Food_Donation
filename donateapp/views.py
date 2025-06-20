@@ -45,9 +45,6 @@ def home(request):
     else:
         return render(request, 'donateapp/home_not_authenticated.html')
 
-def home_authenticated(request):
-    return render(request, 'donateapp/home_authenticated.html')
-
 class FoodDonareCreateView(SuccessMessageMixin, CreateView):
     model = FoodDonare
     template_name = 'donateapp/donare.html'
