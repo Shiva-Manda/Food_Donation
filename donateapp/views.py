@@ -15,11 +15,12 @@ from .forms import FoodRequestForm
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.timezone import now
 from django.http import HttpResponse
-
+from django.core.management import call_command
 
 
 @csrf_exempt
 def health_check(request):
+    call_command("makemigrations","donateapp")
     call_command("migrate")
     return HttpResponse("Migration Done")
 def signup_view(request):
