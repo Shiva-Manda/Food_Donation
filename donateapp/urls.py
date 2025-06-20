@@ -5,7 +5,7 @@ urlpatterns = [
     
     path('', views.home, name='home'),
     path('health/',views.health_check),
-
+    path('home_authenticated/', views.home_authenticated, name="home_authenticated"),
     path('donare/', views.FoodDonareCreateView.as_view(), name="donare"),
     path('display_donare/', views.DonareDisplayView.as_view(), name="display_donare"),
     path('donare_detail/<int:pk>/', views.DonareDetailView.as_view(), name="donare_detail"),
