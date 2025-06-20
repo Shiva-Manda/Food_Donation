@@ -1,22 +1,54 @@
-{%extends 'donateapp/base.html'%}
-{% load crispy_forms_tags %}
+{% extends 'donateapp/base.html' %}
+{% load static %}
 
-{%block content%}
+{% block title %}Notifications{% endblock %}
 
-  <br>
-    <br>
-      <br>
-    {%if notifications%}
-     <ol style="margin-left: 150px;">
-     {%for notification in notifications%}
-      <li><h5><span style="color:red;">{{notification.notification}}</span></h5></li>
-    {%endfor%}
-     </ol>
-     <form  method="post">
-       {%csrf_token%}
-        <button type="submit" class="btn btn-success" style="width:200px;margin-left: 550px;margin-top: 100px;">Clear Notifications</button>
-     </form>
-      {%else%}
-      <h1 style="margin-left: 250px;margin-top: 200px;" align='center'><span style="color:red;">No notification found!!</span></h1>
-      {%endif%}
-{%endblock%}
+{% block content %}
+<h1 class="text-3xl font-bold text-indigo-700 mb-6 text-center">Food Requests & Notifications</h1>
+
+<!-- Notifications Section -->
+{% if notifications %}
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold text-yellow-700 mb-3">New Notifications</h2>
+    <div class="space-y-4">
+      {% for n in notifications %}
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-900 p-4 rounded shadow">
+          {{ n.notification }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+<!-- Requests Section -->
+{% if requests %}
+  <div class="space-y-6">
+    <h2 class="text-xl font-semibold text-indigo-700 mb-3">Pending Food Requests</h2>
+
+    {% for request in requests %}
+      <div class="bg-white shadow-md border border-indigo-200 rounded-lg p-5">
+        <p><strong>Food:</strong> {{ request.donation.food_details }}</p>
+        <p><strong>From:</strong> {{ request.user.username }}</p>
+        <p><strong>Message:</strong> {{ request.any_message }}</p>
+        <p><strong>Contact:</strong> {{ request.contact_number }}</p>
+
+        <form method="post" class="mt-4 flex gap-4">
+          {% csrf_token %}
+          <input type="hidden" name="request_id" value="{{ request.id }}">
+          <button type="submit" name="action" value="accept"
+                  class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">
+            Accept
+          </button>
+          <button type="submit" name="action" value="decline"
+                  class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">
+            Decline
+          </button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-center text-gray-600">No pending food requests.</p>
+{% endif %}
+
+{% endblock %}
