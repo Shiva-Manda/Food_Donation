@@ -39,11 +39,11 @@ def signup_view(request):
         return HttpResponse(f"Error occurred: {e}")
 
 @login_required
-def home_authenticated(request):
-    return render(request, 'donateapp/home_authenticated.html')
-
-def home_not_authenticated(request):
-    return render(request, 'donateapp/home_not_authenticated.html')
+def home(request):
+    if request.user.is_authenticated:
+        return render(request, 'donateapp/home_authenticated.html')
+    else:
+        return render(request, 'donateapp/home_not_authenticated.html')
 
 
 
