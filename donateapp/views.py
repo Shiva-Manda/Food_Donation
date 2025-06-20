@@ -16,13 +16,21 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.timezone import now
 from django.http import HttpResponse
 from django.core.management import call_command
-
+from django.http import JsonResponse
+import io
+import sys
 
 @csrf_exempt
 def health_check(request):
-    call_command("makemigrations","donateapp")
-    call_command("migrate")
-    return HttpResponse("Migration Done")
+    try:
+        out = io.StringIO()
+        sys.stdout = out
+        call_command("makemigrations", interactive=False, stdout=out)
+        call_command("migrate", interactive=False, stdout=out)
+        sys.stdout = sys.__stdout__  # Reset stdout
+        return JsonResponse({"status": "Makemigrations and Migrate done"})
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 def signup_view(request):
     try:
         
