@@ -4,8 +4,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone 
 from datetime import timedelta
 
-def default_expiry():
-    return timezone.now() + timedelta(hours=5, minutes=30)
+
 
 
 
@@ -16,8 +15,6 @@ class FoodDonare(models.Model):
     food_details = models.TextField()
     donate_date = models.DateTimeField(default=timezone.now)
 
-    prepared_time = models.DateTimeField(null=True, blank=True)
-    expiry_time = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.user}"
