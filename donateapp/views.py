@@ -20,7 +20,7 @@ from django.http import JsonResponse
 import io
 import sys
 
-@csrf_exempt
+@staff_member_required
 def health_check(request):
     try:
         out = io.StringIO()
