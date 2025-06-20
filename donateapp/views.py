@@ -94,9 +94,12 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("q")
+        user = self.request.user
         donations = FoodDonare.objects.filter(address__icontains=query)
-        donations = donations.exclude(requests__status="Accepted")
+        donations = donations.exclude(user=user)  # Exclude own food
+        donations = donations.exclude(requests__status="Accepted")  # Hide accepted
         return donations
+
 
 
 class RequestView(CreateView):
