@@ -1,30 +1,38 @@
-{% extends 'donateapp/base.html' %} 
+{% extends 'donateapp/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
- {% for message in messages %}
-     {{message}}
- {% endfor %}
-  <form method="POST">
-    {% csrf_token %}
-    <fieldset class="form-group">
-      <legend class="border-bottom mb-4"><h1>Log In Here</h1></legend>
-      {{form|crispy}}
-      
-    </fieldset>
-    <div class="form-group">
-      <button href="" class="btn btn-outline-info" type="submit">
-        Login
-      </button>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4 text-center">
+            <h2 class="fw-bold">Log In Here</h2>
+          </legend>
+          {{ form|crispy }}
+        </fieldset>
+        <div class="form-group mt-4">
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+        </div>
+      </form>
+
+      <div class="border-top pt-3 text-center mt-4">
+        <small class="text-muted">
+          Need an Account?
+          <a class="text-primary ms-1" href="{% url 'signup' %}">Create an Account</a>
+        </small>
+      </div>
     </div>
-  </form>
-  <div class="border-top pt-3">
-    <small class="text-muted">Need an Account?
-      &nbsp;&nbsp; <a class="ml-1" href="{% url 'signup' %}"><font class="text-primary">Create an Account</font></a>
-    </small>
-   <br>
   </div>
 </div>
-{% endblock content %}  
+{% endblock content %}
