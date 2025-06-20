@@ -16,6 +16,29 @@
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
 
+  <!-- Notification Alert Popup -->
+  {% if unread_notifications_count > 0 %}
+  <script>
+    alert("🔔 You have {{ unread_notifications_count }} new notification{{ unread_notifications_count|pluralize }}!");
+  </script>
+  {% endif %}
+
+  <!-- Optional: Top Nav Notification Badge -->
+  <nav class="bg-white shadow-md py-2 px-6 flex justify-between items-center">
+    <div class="text-xl font-semibold text-indigo-600">Food Donation</div>
+    <div class="flex items-center space-x-6">
+      <a href="{% url 'notification' %}" class="relative text-gray-700 hover:text-indigo-600">
+        Notifications
+        {% if unread_notifications_count > 0 %}
+          <span class="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+            {{ unread_notifications_count }}
+          </span>
+        {% endif %}
+      </a>
+      <a href="{% url 'received_requests' %}" class="text-gray-700 hover:text-indigo-600">Requests</a>
+    </div>
+  </nav>
+
   <!-- Main Content -->
   <div class="container mx-auto px-4 py-6">
     {% block content %}
