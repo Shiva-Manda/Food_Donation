@@ -1,26 +1,44 @@
 {% extends 'donateapp/base.html' %} 
-{% block content %}
 {% load crispy_forms_tags %}
+{% block content %}
 
-<section class='text-left container'>
-    <button href="" class="btn btn-success" type="submit">
-        <a href="{% url 'display_donare' %}" style="color:white;" > See Your Donate Food Details </a>
-     </button> 
-    </section> 
-    <br>
-<div class="container">
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">{{user.username}} Please Fill This Form To Donate Food </legend>
-        </fieldset>
-        {{form|crispy}}
-        <div class="form-group">
-            <button href="" class="btn btn-secondary btn-m active" type="submit">
-                Submit
-            </button>
+<!-- Top Action Button -->
+<section class="container text-center my-4">
+    <a href="{% url 'display_donare' %}" class="btn btn-outline-primary btn-lg shadow-sm" style="font-weight: 500;">
+        🍲 See Your Donate Food Details
+    </a>
+</section> 
+
+<!-- Form Container -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Card -->
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5">
+                    <h2 class="text-center text-success mb-4">{{ user.username }}, Donate Your Food Here</h2>
+
+                    <!-- Form -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            {{ form|crispy }}
+                        </fieldset>
+                        
+                        <!-- Submit Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-lg px-5 py-2 shadow-sm" style="background: linear-gradient(to right, #38b2ac, #319795); border: none;">
+                                🚚 Submit Donation
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
         </div>
-    </form>
+    </div>
 </div>
 
 {% endblock content %}
