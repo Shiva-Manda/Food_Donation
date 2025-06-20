@@ -218,7 +218,6 @@ def respond_to_request(request, request_id, action):
     return redirect('donor_dashboard')
 
 def notifications_view(request):
-    def notifications_view(request):
     pickups = FoodAcceptor.objects.filter(acceptor=request.user).exclude(status='pending')
     requests = FoodAcceptor.objects.filter(donare__user=request.user, status='pending')
 
