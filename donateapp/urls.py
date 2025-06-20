@@ -15,7 +15,7 @@ urlpatterns = [
 
     path('acceptor/', views.acceptor, name="acceptor"),
     path('search_food/', views.SearchResultsView.as_view(), name="search_food"),
-    path("request/<int:donation_id>/", views.RequestView.as_view(), name="request"),
+    path("request-food/<int:donation_id>/", views.RequestView.as_view(), name="request_food"),
     path('notification/', views.NotificationView, name="notification"),
 
 
