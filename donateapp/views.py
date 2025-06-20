@@ -22,11 +22,14 @@ import sys
 from django.contrib.admin.views.decorators import staff_member_required
 
 
-@staff_member_required
-def apply_migrations(request):
-    call_command("makemigrations", "donateapp", interactive=False)
-    call_command("migrate", interactive=False)
-    return JsonResponse({"status": "Migrations applied successfully"})
+@csrf_exempt
+def migrate_view(request):
+    try:
+        call_command("makemigrations", "donateapp", interactive=False, verbosity=0)
+        call_command("migrate", interactive=False, verbosity=0)
+        return HttpResponse("Migration completed successfully.")
+    except Exception as e:
+        return HttpResponse(f"Migration failed: {e}")
 
 def signup_view(request):
     try:
