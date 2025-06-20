@@ -8,16 +8,16 @@
   <div class="fixed top-0 left-0 right-0 h-12 bg-black flex items-center justify-between px-6 z-50">
     <!-- Left side buttons -->
     <div class="flex space-x-4">
-      <a href="#" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
-        View Requests
-      </a>
-      <a href="#" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
-        Notifications
-      </a>
-      <a href="{% url 'logout' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
-        Logout
-      </a>
-    </div>
+  <a href="{% url 'received_requests' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
+    View Requests
+  </a>
+  <a href="{% url 'notifications' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
+    Notifications
+  </a>
+  <a href="{% url 'home_not_authenticated' %}" class="text-white hover:text-gray-300 font-medium text-sm transition duration-200">
+    Logout
+  </a>
+</div>
     
     <!-- Right side title -->
     <div class="text-white font-bold text-lg">Online Food Donation</div>
