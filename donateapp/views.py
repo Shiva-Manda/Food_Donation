@@ -37,7 +37,8 @@ def signup_view(request):
         return render(request, 'donateapp/signup.html', {'form': form})
     except Exception as e:
         return HttpResponse(f"Error occurred: {e}")
-
+def about_us(request):
+    return render(request, 'about_us.html')
 @login_required
 def home(request):
     if request.user.is_authenticated:
