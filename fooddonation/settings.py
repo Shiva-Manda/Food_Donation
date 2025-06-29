@@ -66,7 +66,7 @@ WSGI_APPLICATION = 'fooddonation.wsgi.application'
 # Database: Uses MySQL if DATABASE_URL is set, else falls back to SQLite
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('postgresql://mydb_wk4x_user:jJVkrhMIMrOQbUrhG7LNvIAqzxqGox5c@dpg-d18eusodl3ps7389kvv0-a.oregon-postgres.render.com/mydb_wk4x'),
+        default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,
         ssl_require=True
     )
